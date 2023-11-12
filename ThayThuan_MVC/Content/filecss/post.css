@@ -1,0 +1,62 @@
+.post{
+    display: flex;
+    position: relative;
+    top: 30%;
+    left: 80%;
+    transform: translate(-50%, -50%); 
+    text-align: center;
+    width: 100%;
+    height: 550px;
+}
+
+.table{
+    position: relative;
+    background-color: rgb(201, 214, 210);
+    left: 40%;
+    top: -27%;
+}
+.textName{
+    text-align: left;
+}
+
+.inputName{
+    width: 100%;
+}
+.kimg{
+    position: absolute;
+    top: 10%;
+    left: -8%;
+}
+
+.textimg{
+    position: absolute;
+    top: -5%;
+    color: black;
+    width: 100%;
+    font-size: 20px;
+    transform: translate(-50%, -50%); 
+}
+
+.imgsp{
+    border-radius: 8px;
+}
+
+.lc{
+    width: 100%;
+}
+
+.btun{
+    position: absolute;
+    top: 70%;
+    left: 42%;
+    background-color: rgb(132, 158, 158);
+    width: 150px;
+    height: 35px;
+    border: 2px solid #83c7e2;
+    border-radius: 4px;
+}
+
+.btun:hover{
+    background-color: rgb(56, 55, 55);
+    color: aliceblue;
+}

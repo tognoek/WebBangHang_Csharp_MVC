@@ -1,0 +1,20 @@
+.sanpham{
+    display: block;
+}
+
+.noSanpham{
+    display: none;
+}
+
+.toMau{
+    background-color: rgb(172, 101, 101);
+    color: aliceblue;
+}
+
+.noSanpham1{
+    display: none;
+}
+
+.noSanpham2{
+    display: none;
+}

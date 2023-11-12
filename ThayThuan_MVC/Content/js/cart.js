@@ -1,0 +1,1 @@
+document.cookie = "LogCr=1"
