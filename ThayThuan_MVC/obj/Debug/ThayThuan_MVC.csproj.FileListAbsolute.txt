@@ -77,3 +77,7 @@ F:\Code\C#\ThayThuan_MVC\ThayThuan_MVC\obj\Debug\ThayThuan_MVC.csproj.CoreCompil
 F:\Code\C#\ThayThuan_MVC\ThayThuan_MVC\obj\Debug\ThayThuan_MVC.csproj.CopyComplete
 F:\Code\C#\ThayThuan_MVC\ThayThuan_MVC\obj\Debug\ThayThuan_MVC.dll
 F:\Code\C#\ThayThuan_MVC\ThayThuan_MVC\obj\Debug\ThayThuan_MVC.pdb
+F:\Code\C#\ThayThuan_MVC\ThayThuan_MVC\bin\EntityFramework.dll
+F:\Code\C#\ThayThuan_MVC\ThayThuan_MVC\bin\EntityFramework.SqlServer.dll
+F:\Code\C#\ThayThuan_MVC\ThayThuan_MVC\bin\EntityFramework.xml
+F:\Code\C#\ThayThuan_MVC\ThayThuan_MVC\bin\EntityFramework.SqlServer.xml

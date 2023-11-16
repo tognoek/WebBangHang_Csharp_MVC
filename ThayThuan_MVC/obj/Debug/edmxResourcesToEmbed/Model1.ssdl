@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ThayThuanMVCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="DoiTuong">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TenDoiTuong" Type="nvarchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GioHang">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IDNguoiDung" Type="int" />
+    <Property Name="IDSanPham" Type="int" />
+    <Property Name="SoLuong" Type="int" />
+  </EntityType>
+  <EntityType Name="NguoiDung">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="IDQuyen" Type="int" />
+    <Property Name="HoTen" Type="nvarchar" MaxLength="255" />
+    <Property Name="SoDienThoai" Type="varchar" MaxLength="20" />
+    <Property Name="Email" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="Quyen">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TenQuyen" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="MoTa" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="SanPham">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TenSanPham" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="Gia" Type="int" />
+    <Property Name="SoLuong" Type="int" />
+    <Property Name="HinhAnh" Type="varchar" MaxLength="255" />
+    <Property Name="IDDoiTuong" Type="int" />
+    <Property Name="IDTheLoai" Type="int" />
+  </EntityType>
+  <EntityType Name="TheLoai">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TenTheLaoi" Type="nvarchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__GioHang__IDNguoi__440B1D61">
+    <End Role="NguoiDung" Type="Self.NguoiDung" Multiplicity="0..1" />
+    <End Role="GioHang" Type="Self.GioHang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NguoiDung">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="GioHang">
+        <PropertyRef Name="IDNguoiDung" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GioHang__IDSanPh__44FF419A">
+    <End Role="SanPham" Type="Self.SanPham" Multiplicity="0..1" />
+    <End Role="GioHang" Type="Self.GioHang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SanPham">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="GioHang">
+        <PropertyRef Name="IDSanPham" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__NguoiDung__IDQuy__398D8EEE">
+    <End Role="Quyen" Type="Self.Quyen" Multiplicity="0..1" />
+    <End Role="NguoiDung" Type="Self.NguoiDung" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quyen">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="NguoiDung">
+        <PropertyRef Name="IDQuyen" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SanPham__IDDoiTu__412EB0B6">
+    <End Role="DoiTuong" Type="Self.DoiTuong" Multiplicity="0..1" />
+    <End Role="SanPham" Type="Self.SanPham" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DoiTuong">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SanPham">
+        <PropertyRef Name="IDDoiTuong" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SanPham__IDTheLo__403A8C7D">
+    <End Role="TheLoai" Type="Self.TheLoai" Multiplicity="0..1" />
+    <End Role="SanPham" Type="Self.SanPham" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TheLoai">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SanPham">
+        <PropertyRef Name="IDTheLoai" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ThayThuanMVCModelStoreContainer">
+    <EntitySet Name="DoiTuong" EntityType="Self.DoiTuong" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GioHang" EntityType="Self.GioHang" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NguoiDung" EntityType="Self.NguoiDung" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Quyen" EntityType="Self.Quyen" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SanPham" EntityType="Self.SanPham" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TheLoai" EntityType="Self.TheLoai" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__GioHang__IDNguoi__440B1D61" Association="Self.FK__GioHang__IDNguoi__440B1D61">
+      <End Role="NguoiDung" EntitySet="NguoiDung" />
+      <End Role="GioHang" EntitySet="GioHang" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GioHang__IDSanPh__44FF419A" Association="Self.FK__GioHang__IDSanPh__44FF419A">
+      <End Role="SanPham" EntitySet="SanPham" />
+      <End Role="GioHang" EntitySet="GioHang" />
+    </AssociationSet>
+    <AssociationSet Name="FK__NguoiDung__IDQuy__398D8EEE" Association="Self.FK__NguoiDung__IDQuy__398D8EEE">
+      <End Role="Quyen" EntitySet="Quyen" />
+      <End Role="NguoiDung" EntitySet="NguoiDung" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SanPham__IDDoiTu__412EB0B6" Association="Self.FK__SanPham__IDDoiTu__412EB0B6">
+      <End Role="DoiTuong" EntitySet="DoiTuong" />
+      <End Role="SanPham" EntitySet="SanPham" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SanPham__IDTheLo__403A8C7D" Association="Self.FK__SanPham__IDTheLo__403A8C7D">
+      <End Role="TheLoai" EntitySet="TheLoai" />
+      <End Role="SanPham" EntitySet="SanPham" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
