@@ -1,4 +1,4 @@
-﻿
+﻿@model ThayThuan_MVC.NguoiDung
 @{
     Layout = null;
 }
@@ -98,7 +98,19 @@
                 <div class="col-lg-3">
                     <div class="header__right">
                         <div class="header__right__auth">
-                            <a href="#">Login</a>
+
+                            @if (Model != null)
+                            {
+                                <a href="#">
+                                    @Model.HoTen
+                                </a>
+                            }
+                            else
+                            {
+                                <a>
+                                    Login
+                                </a>
+                            }
                             <a href="#">Register</a>
                         </div>
                         <ul class="header__right__widget">
