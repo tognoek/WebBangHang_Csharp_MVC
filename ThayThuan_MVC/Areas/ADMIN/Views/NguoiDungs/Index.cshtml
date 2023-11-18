@@ -1,0 +1,50 @@
+﻿@model IEnumerable<ThayThuan_MVC.NguoiDung>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="table-responsive" style="margin-top: 20px">
+    <h5 class="card-header">Table Account User</h5>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Email</th>
+                <th scope="col">Permission</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.ID</th>
+                    <th>@item.HoTen</th>
+                    <th>@item.SoDienThoai</th>
+                    <th>@item.Email</th>
+                    <th>@item.Quyen.TenQuyen</th>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="mdi mdi-dots-vertical"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="@Url.Action("Edit", "NguoiDungs", new { id = item.ID })"><i class="mdi mdi-pencil-outline me-1"></i> Edit</a>
+                                <a class="dropdown-item" href="@Url.Action("Details", "NguoiDungs", new { id = item.ID })"><i class="mdi mdi-details me-1"></i> Detail</a>
+                                <a class="dropdown-item" href="@Url.Action("Delete", "NguoiDungs", new { id = item.ID })"><i class="mdi mdi-trash-can-outline me-1"></i> Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<p>
+    <a href="@Url.Action("Create", "NguoiDungs")" class="btn btn-warning btn-tone m-r-5">Create New Account</a>
+</p>

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ThayThuan_MVC.Quyen>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="modal" style="position: relative;display: block;z-index: 0;overflow-y: hidden;">
+    <div class="card" style="width: 850px; position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%);">
+        <h5 class="card-header">Table Permission</h5>
+        <div class="table-responsive text-nowrap">
+            <table class="table">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name Permission</th>
+                        <th>Describe Permission</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ID</td>
+                            <td>@item.TenQuyen</td>
+                            <td>@item.MoTa</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                        <i class="mdi mdi-dots-vertical"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="@Url.Action("Edit", "Quyens", new { id = item.ID })"><i class="mdi mdi-pencil-outline me-1"></i> Edit</a>
+                                        <a class="dropdown-item" href="@Url.Action("Details", "Quyens", new { id = item.ID })"><i class="mdi mdi-details me-1"></i> Detail</a>
+                                        <a class="dropdown-item" href="@Url.Action("Delete", "Quyens", new { id = item.ID })"><i class="mdi mdi-trash-can-outline me-1"></i> Delete</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="modal-footer">
+                <a href="@Url.Action("Create", "Quyens")" class="btn btn-warning m-r-10">Create Permission</a>
+            </div>
+        </div>
+    </div>
+</div>
