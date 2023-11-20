@@ -29,12 +29,12 @@ namespace ThayThuan_MVC.Controllers
             {
                 id = 1;
             }
-            SanPham danhsachsanpham = db.SanPham.Find(id);
-            if (danhsachsanpham == null)
+            SanPham sanPham = db.SanPham.Find(id);
+            if (sanPham == null)
             {
                 return HttpNotFound();
             }
-            return View(danhsachsanpham);
+            return View(sanPham);
         }
 
         public ActionResult Post()
@@ -49,25 +49,85 @@ namespace ThayThuan_MVC.Controllers
 
         public ActionResult ShopCart()
         {
-            string user = HttpContext.Request.Form["user"];
-            string password = HttpContext.Request.Form["password"];
-            NguoiDung nguoidung = db.NguoiDung.FirstOrDefault(x => x.UserName == user && x.Password == password);
-            return View(nguoidung);
+            int IDuser = -1;
+            if (Request.Cookies["user"] != null)
+            {
+                IDuser = int.Parse(Request.Cookies["user"].Value);
+            }
+            var listCart = db.GioHang.Include(s => s.SanPham).Where(x => x.IDNguoiDung == IDuser).ToList();
+            return View(listCart);
         }
-        public ActionResult Submit()
+        [HttpPost]
+        public ActionResult Submit(string username, string password)
         {
-            string user = HttpContext.Request.Form["user"];
-            string password = HttpContext.Request.Form["password"];
-            NguoiDung nguoidung = db.NguoiDung.FirstOrDefault(x => x.UserName == user && x.Password == password);
+            NguoiDung nguoidung = db.NguoiDung.FirstOrDefault(x => x.UserName == username && x.Password == password);
             if (nguoidung != null)
             {
-                ViewData["NguoiDung"] = nguoidung;
+                var ID = nguoidung.ID;
+                var Name = nguoidung.HoTen;
+
+                // Trả về JsonResult chứa hai giá trị
+                return Json(new { ID = ID, Name = Name });
             }
             else
             {
-                ViewData["NguoiDung"] = null;
+                return Content("Đăng nhập đéo thành công");
             }
-            return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public ActionResult GetUser(int IdUser)
+        {
+            NguoiDung nguoidung = db.NguoiDung.FirstOrDefault(x => x.ID == IdUser);
+            if (nguoidung != null)
+            {
+                var ID = nguoidung.ID;
+                var Name = nguoidung.HoTen;
+
+                // Trả về JsonResult chứa hai giá trị
+                return Json(new { ID = ID, Name = Name });
+            }
+            else
+            {
+                return Content("Đăng nhập đéo thành công");
+            }
+        }
+        [HttpPost]
+        public ActionResult AddCart(int IDUser, int ID, int Quanity)
+        {
+            GioHang gioHag = db.GioHang.Where(x => x.IDNguoiDung == IDUser && x.IDSanPham == ID).FirstOrDefault();
+            if (gioHag != null)
+            {
+                var QuantityFind = gioHag.SoLuong + Quanity;
+                var QuantitySum = db.SanPham.Find(ID).SoLuong;
+                if (QuantityFind < QuantitySum)
+                {
+                    gioHag.SoLuong = QuantityFind;
+                }
+                else
+                {
+                    gioHag.SoLuong = QuantitySum;
+                }
+            }
+            else
+            {
+                GioHang gioHang = new GioHang();
+                gioHang.IDNguoiDung = IDUser;
+                gioHang.IDSanPham = ID;
+                gioHang.SoLuong = Quanity;
+                db.GioHang.Add(gioHang);
+            }
+            db.SaveChanges();
+            return Json(new { IDUser = IDUser, ID = ID, Name = Quanity });
+        }
+        [HttpPost]
+        public ActionResult DeleteProduct(int ID)
+        {
+            GioHang gioHang = db.GioHang.Find(ID);
+            db.GioHang.Remove(gioHang);
+            db.SaveChanges();
+            return Content("Đã Xóa");
+        }
+
     }
 }

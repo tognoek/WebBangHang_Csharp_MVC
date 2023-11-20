@@ -4,56 +4,64 @@
     ViewBag.Title = "Details";
 }
 
-<section class="product-details spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="product__details__pic">
-                    <div class="product__details__pic__left product__thumb nice-scroll">
-                        <a class="pt active" href="#product-1">
-                            <img src="/img/product/shop/@Html.DisplayFor(model => model.HinhAnh)" alt="">
-                        </a>
-                        <a class="pt" href="#product-2">
-                            <img src="/img/product/shop/@Html.DisplayFor(model => model.HinhAnh)" alt="">
-                        </a>
-                        <a class="pt" href="#product-3">
-                            <img src="/img/product/shop/@Html.DisplayFor(model => model.HinhAnh)" alt="">
-                        </a>
-                    </div>
-                    <div class="product__details__slider__content">
-                        <div class="product__details__pic__slider owl-carousel">
-                            <img data-hash="product-1" class="product__big__img" src="/img/product/shop/@Html.DisplayFor(model => model.HinhAnh)" alt="">
-                            <img data-hash="product-2" class="product__big__img" src="/img/product/shop/@Html.DisplayFor(model => model.HinhAnh)" alt="">
-                            <img data-hash="product-3" class="product__big__img" src="/img/product/shop/@Html.DisplayFor(model => model.HinhAnh)" alt="">
-                        </div>
-                    </div>
+
+<div class="modal" style="position: relative;display: block;z-index: 0;overflow-y: hidden;">
+    <div class="row" style="position: absolute;width: 1000px; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <!-- Basic Layout -->
+        <div class="col-xxl" style="flex: 3">
+            <div class="card mb-4">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Info Product</h5>
                 </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="product__details__text">
-                    <h3>@Html.DisplayFor(model => model.TenSanPham)<span>Brand: SKMEIMore Men Watches from SKMEI</span></h3>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <span>( 138 reviews )</span>
-                    </div>
-                    <div class="product__details__price">$ @Html.DisplayFor(model => model.Gia).0 <span>$ @{int dongiamoi = (int)Model.Gia * 115 / 100; @Html.DisplayFor(model => dongiamoi)}.0</span></div>
-                    <p>
-                        Nemo enim ipsam voluptatem quia aspernatur aut odit aut loret fugit, sed quia consequuntur
-                        magni lores eos qui ratione voluptatem sequi nesciunt.
-                    </p>
-                    <div class="product__details__button">
-                        <div class="quantity">
-                            <span>Quantity: @Model.SoLuong</span>
+                <div class="card-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.ID)
+                    <div class="row mb-3">
+                        <label class="col-sm-4 col-form-label" for="TenSanPham">Name Product</label>
+                        <div class="col-sm-6 col-form-label">
+                            <div>@Model.TenSanPham</div>
                         </div>
-                        <a href="@Url.Action("Edit", "SanPhams", new { id = Model.ID })" class="btn btn-primary m-r-5">Edit</a>
-                        <a href="@Url.Action("Index", "SanPhams")" class="btn btn-success m-r-5">All Prodcut</a>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-4 col-form-label" for="Gia">Unit Price</label>
+                        <div class="col-sm-6 col-form-label">
+                            <div>@Model.Gia</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-4 col-form-label" for="Gia">Quantity</label>
+                        <div class="col-sm-6 col-form-label">
+                            <div>@Model.SoLuong</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-4 col-form-label" for="IDDoiTuong">Objects Of Use</label>
+                        <div class="col-sm-6 col-form-label">
+                            <div>@Model.DoiTuong.TenDoiTuong</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-4 col-form-label" for="IDTheLoai">Category</label>
+                        <div class="col-sm-6 col-form-label">
+                            <div>@Model.TheLoai.TenTheLaoi</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="@Url.Action("Index", "SanPhams")" class="btn btn-default m-r-10 w-px-70">Close</a>
+                        |
+                        <a href="@Url.Action("Edit", "SanPhams", new { id = Model.ID })" class="btn btn-success m-r-10 w-px-70">Edit</a>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Basic with Icons -->
+        <div class="col-xxl" style="flex: 2">
+            <div class="card" style="width : 300px ">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Image Product</h5>
+                </div>
+                <img class="imgsp w-px-300 h-px-400" src="/img/shop/@Model.HinhAnh" alt="" style="padding: 4px 10px 10px 10px">
+            </div>
+        </div>
     </div>
-</section>
+</div>

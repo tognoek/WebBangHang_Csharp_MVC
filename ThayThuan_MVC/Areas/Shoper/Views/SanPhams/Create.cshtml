@@ -4,72 +4,75 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>SanPham</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.TenSanPham, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TenSanPham, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TenSanPham, "", new { @class = "text-danger" })
+<div class="modal" style="position: relative;display: block;z-index: 0;overflow-y: hidden;">
+    @using (Html.BeginForm("Create", "SanPhams", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row" style="position: absolute;width: 1300px; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+            <!-- Basic Layout -->
+            <div class="col-xxl" style="flex: 5">
+                <div class="card mb-4">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0">Edit Product</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="TenSanPham">Name Product</label>
+                            <div class="col-sm-10">
+                                @Html.EditorFor(model => model.TenSanPham, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="Gia">Unit Price</label>
+                            <div class="col-sm-10">
+                                @Html.EditorFor(model => model.Gia, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="Gia">Quantity</label>
+                            <div class="col-sm-10">
+                                @Html.EditorFor(model => model.SoLuong, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="IDDoiTuong">Objects Of Use</label>
+                            <div class="col-sm-10">
+                                @Html.DropDownList("IDDoiTuong", null, htmlAttributes: new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="IDTheLoai">Category</label>
+                            <div class="col-sm-10">
+                                @Html.DropDownList("IDTheLoai", null, htmlAttributes: new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="@Url.Action("Index", "SanPhams")" class="btn btn-default m-r-10 w-px-70">Close</a>
+                            |
+                            <button type="submit" value="Save" class="btn btn-primary m-r-10" style="width: 180px">Create Product</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Basic with Icons -->
+            <div class="col-xxl" style="flex: 2">
+                <div class="card" style="width : 300px ">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0">Image Product</h5>
+                    </div>
+                    <img class="imgsp w-px-300 h-px-400" src="/img/shop/shop-1.jpg" alt="" style="padding: 4px 10px 0px 10px">
+                    <div class="d-flex align-items-start align-items-sm-center gap-4">
+                        <div class="button-wrapper" style="margin: 10px 10px 0px 10px">
+                            <label for="HinhAnh" class="btn btn-primary me-2 mb-3" tabindex="0">
+                                <span class="d-none d-sm-block">Upload new photo</span>
+                                <i class="mdi mdi-tray-arrow-up d-block d-sm-none"></i>
+                                <input type="file" id="HinhAnh" name="HinhAnh" class="form-control sImg" accept="image/*" hidden />
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Gia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Gia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Gia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SoLuong, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SoLuong, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SoLuong, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.HinhAnh, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.HinhAnh, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.HinhAnh, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IDDoiTuong, "IDDoiTuong", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("IDDoiTuong", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IDDoiTuong, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IDTheLoai, "IDTheLoai", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("IDTheLoai", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IDTheLoai, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    }
 </div>
+<script src="~/Content/js/dangbai.js"></script>

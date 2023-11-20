@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -82,13 +83,31 @@ namespace ThayThuan_MVC.Areas.Shoper.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,TenSanPham,Gia,SoLuong,HinhAnh,IDDoiTuong,IDTheLoai")] SanPham sanPham)
+        public ActionResult Create(SanPham sanPham, HttpPostedFileBase HinhAnh)
         {
             if (ModelState.IsValid)
             {
-                db.SanPham.Add(sanPham);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    if (HinhAnh != null && HinhAnh.ContentLength > 0)
+                    {
+                        string fileName = Path.GetFileName(HinhAnh.FileName);
+                        string path = Path.Combine(Server.MapPath("~/img/product/shop"), fileName);
+                        HinhAnh.SaveAs(path);
+                        sanPham.HinhAnh = fileName;
+                    }
+                    else
+                    {
+                        sanPham.HinhAnh = null;
+                    }
+                    db.SanPham.Add(sanPham);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+
+                }
             }
 
             ViewBag.IDDoiTuong = new SelectList(db.DoiTuong, "ID", "TenDoiTuong", sanPham.IDDoiTuong);
@@ -118,13 +137,31 @@ namespace ThayThuan_MVC.Areas.Shoper.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,TenSanPham,Gia,SoLuong,HinhAnh,IDDoiTuong,IDTheLoai")] SanPham sanPham)
+        public ActionResult Edit(SanPham sanPham, HttpPostedFileBase HinhAnh)
         {
+            var existingSanPham = db.SanPham.Find(sanPham.ID);
             if (ModelState.IsValid)
             {
-                db.Entry(sanPham).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    if (HinhAnh != null && HinhAnh.ContentLength > 0)
+                    {
+                        string fileName = Path.GetFileName(HinhAnh.FileName);
+                        string path = Path.Combine(Server.MapPath("~/img/product/shop"), fileName);
+                        HinhAnh.SaveAs(path);
+                        sanPham.HinhAnh = fileName;
+                    }
+                    else
+                    {
+                        sanPham.HinhAnh = existingSanPham.HinhAnh;
+                    }
+                    db.Entry(existingSanPham).CurrentValues.SetValues(sanPham);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                }
             }
             ViewBag.IDDoiTuong = new SelectList(db.DoiTuong, "ID", "TenDoiTuong", sanPham.IDDoiTuong);
             ViewBag.IDTheLoai = new SelectList(db.TheLoai, "ID", "TenTheLaoi", sanPham.IDTheLoai);
