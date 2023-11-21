@@ -595,6 +595,7 @@
     <Folder Include="Areas\ADMIN\Data\" />
     <Folder Include="Areas\Shoper\Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Ajax\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -54,7 +54,7 @@ namespace ThayThuan_MVC.Controllers
             {
                 IDuser = int.Parse(Request.Cookies["user"].Value);
             }
-            var listCart = db.GioHang.Include(s => s.SanPham).Where(x => x.IDNguoiDung == IDuser).ToList();
+            var listCart = db.GioHang.Where(x => x.IDNguoiDung == IDuser).ToList();
             return View(listCart);
         }
         [HttpPost]
@@ -121,12 +121,13 @@ namespace ThayThuan_MVC.Controllers
             return Json(new { IDUser = IDUser, ID = ID, Name = Quanity });
         }
         [HttpPost]
-        public ActionResult DeleteProduct(int ID)
+        public ActionResult DeleteProduct(string ID)
         {
-            GioHang gioHang = db.GioHang.Find(ID);
+            int IDCheck = int.Parse(ID);
+            GioHang gioHang = db.GioHang.Find(IDCheck);
             db.GioHang.Remove(gioHang);
             db.SaveChanges();
-            return Content("Đã Xóa");
+            return RedirectToAction("ShopCart");
         }
 
     }

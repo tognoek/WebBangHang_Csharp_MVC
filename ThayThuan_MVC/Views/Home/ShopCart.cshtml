@@ -58,7 +58,7 @@
                                         </div>
                                     </td>
                                     <td class="cart__total">$ 300.0</td>
-                                    <td class="cart__close deleteproduct"><span class="icon_close"></span></td>
+                                    <td class="cart__close" onclick="onDeleteClick(this)"><div class="id" hidden>@item.ID</div><span class="icon_close"></span></td>
                                 </tr>
                             }
                         </tbody>
@@ -104,18 +104,21 @@
 <!-- Shop Cart Section End -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-    $(function () {
-        $(".deleteproduct").click(function (event) {
-            event.preventDefault();
-            console.log(@Model.First().ID)
-            $.ajax({
-                url: '/Home/DeleteProduct',
-                type: 'POST',
-                data: { ID: @Model.First().ID},
-                success: function (data) {
-                    console.log(data)
-                },
-            });
+    function onDeleteClick(deleteItem) {
+        var ID = deleteItem.querySelector('.id').innerText;
+        var parentElement = deleteItem.parentElement;
+        parentElement.setAttribute('hidden', true);
+        $.ajax({
+            url: '/Home/DeleteProduct',
+            type: 'POST',
+            data: { ID: ID },
+            success: function (data) {
+                console.log(data)
+            },
+            error: function (xhr, status, error) {
+                console.log('Lỗi khi xóa:', status, error);
+                console.log(xhr.responseText); // In ra nội dung lỗi chi tiết
+            }
         })
-    })
+    }
 </script>
