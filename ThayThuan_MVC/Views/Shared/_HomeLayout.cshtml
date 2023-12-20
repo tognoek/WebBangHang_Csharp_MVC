@@ -5,6 +5,7 @@
 <html lang="zxx">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="description" content="Ashion Template">
     <meta name="keywords" content="Ashion, unica, creative, html">
@@ -27,6 +28,7 @@
     <link rel="stylesheet" href="~/Content/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="~/Content/css/style.css" type="text/css">
     <link rel="stylesheet" href="~/Content/filecss/login.css">
+
 </head>
 
 <body>
@@ -48,7 +50,7 @@
                 <input type="password" name="password" id="password" required="" autocomplete="off">
                 <label>Password</label>
             </div>
-            <button type="submit">
+            <button type="submit" id="submit-login-button">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -61,20 +63,27 @@
     <!-- END LOGIN -->
     <!-- BEGIN SIGIN -->
 
-    <form action="">
+    <form action="/Home/SignUp" method="POST" onsubmit="onsignUpSubmit(event)">
         <div class="ctndankky">
             <h1>Form Đăng Ký</h1>
             <p>Xin hãy nhập biểu mẫu bên dưới để đăng ký.</p>
             <hr>
 
+            <label for="username"><b>Username</b></label>
+            <input type="text" placeholder="Nhập username" name="username" id="username-signup-input" required>
+            <br />
+
             <label for="email"><b>Email</b></label>
-            <input type="text" placeholder="Nhập Email" name="email" required>
+            <input type="text" placeholder="Nhập Email" name="email" id="email-signup-input" required>
+            <br />
 
             <label for="psw"><b>Mật Khẩu</b></label>
-            <input type="password" placeholder="Nhập Mật Khẩu" name="psw" required>
+            <input type="password" placeholder="Nhập Mật Khẩu" name="psw" id="psw-signup-input" required>
+            <br />
 
             <label for="psw-repeat"><b>Nhập Lại Mật Khẩu</b></label>
-            <input type="password" placeholder="Nhập Lại Mật Khẩu" name="psw-repeat" required>
+            <input type="password" placeholder="Nhập Lại Mật Khẩu" name="psw-repeat" id="psw-repeat-signup-input" required>
+            <br />
 
             <label>
                 <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Nhớ Đăng Nhập
@@ -436,6 +445,33 @@
                 });
             });
         });
+
+        function onsignUpSubmit(event) {
+            event.preventDefault();
+            var username = document.getElementById("username-signup-input").value;
+            var password = document.getElementById("psw-signup-input").value;
+            var passwordRepeat = document.getElementById("psw-repeat-signup-input").value;
+            var email = document.getElementById("email-signup-input").value;
+            if (password != passwordRepeat) {
+                alert("Mật khẩu xác nhận không khớp");
+                return;
+            }
+            var signUpRequest = $.param({
+                username: username,
+                password: password,
+                email: email
+            });
+            $.post("/Home/SignUp", signUpRequest, function (data, textStatus, jqXHR) {
+                console.log(data);
+                alert(data.message);
+                if (data.success) {
+                    // Biết là a đuồi lắm rồi, đừng có soi nữa, lỗi tôi, tôi không biết làm web front-end cám ơn.
+                    document.getElementById("user").value = username;
+                    document.getElementById("password").value = password;
+                    document.getElementById("submit-login-button").click();
+                }
+            });
+        }
     </script>
 </body>
 

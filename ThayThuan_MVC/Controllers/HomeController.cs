@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Web;
 using System.Web.Mvc;
 
@@ -71,7 +72,7 @@ namespace ThayThuan_MVC.Controllers
             }
             else
             {
-                return Content("Đăng nhập đéo thành công");
+                return Content("Đăng nhập không thành công");
             }
         }
 
@@ -89,7 +90,7 @@ namespace ThayThuan_MVC.Controllers
             }
             else
             {
-                return Content("Đăng nhập đéo thành công");
+                return Content("Đăng nhập không thành công");
             }
         }
         [HttpPost]
@@ -129,6 +130,21 @@ namespace ThayThuan_MVC.Controllers
             db.SaveChanges();
             return RedirectToAction("ShopCart");
         }
+
+        [HttpPost]
+        public ActionResult SignUp(string username, string password, string email)
+        {
+            bool isAlreadyExisted = db.NguoiDung.Where(user => user.UserName.Equals(username)).FirstOrDefault() != null;
+            if (isAlreadyExisted)
+                return Json(new { success = false, message = "Tài khoản đã tồn tại" });
+            
+            db.Database.ExecuteSqlCommand("INSERT INTO [dbo].[NguoiDung] ([UserName], [Password] ,[IDQuyen], [HoTen], [SoDienThoai], [Email]) VALUES (@p0, @p1, 2, @p0, NULL, @p2)", username, password, email);
+
+            return Json(new { success = true, message = "Đăng ký thành công rồi nha." });
+
+        }
+
+
 
     }
 }
