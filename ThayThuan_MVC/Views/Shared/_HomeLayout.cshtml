@@ -145,8 +145,8 @@
                                 <a href="#">Pages</a>
                                 <ul class="dropdown">
                                     <li><a href="./product-details.html">Product Details</a></li>
-                                    <li><a href="./shop-cart.html">Shop Cart</a></li>
-                                    <li><a href="https://localhost:44374/ADMIN/NguoiDungs">Checkout</a></li>
+                                    <li><a href="https://localhost:44374/Shoper/SanPhams">Quản lý sản phẩm</a></li>
+                                    <li><a href="https://localhost:44374/ADMIN/NguoiDungs">Admin</a></li>
                                     <li><a href="./blog-details.html">Blog Details</a></li>
                                 </ul>
                             </li>
@@ -166,13 +166,12 @@
                             <li>
                                 <a href="#">
                                     <span class="icon_heart_alt"></span>
-                                    <div class="tip">2</div>
                                 </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("ShopCart", "Home")">
                                     <span class="icon_bag_alt"></span>
-                                    <div class="tip">2</div>
+                                    <div class="tip">0</div>
                                 </a>
                             </li>
                         </ul>
@@ -342,7 +341,7 @@
     <script src="~/Content/js/jquery.slicknav.js"></script>
     <script src="~/Content/js/owl.carousel.min.js"></script>
     <script src="~/Content/js/jquery.nicescroll.min.js"></script>
-    <script src="~/Content/js/main.js"></script>
+    <script src="~/Content/js/main2.js"></script>
     <script src="~/Content/js/login.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
@@ -376,8 +375,18 @@
             document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         }
         $(function () {
+
             var IdUser = getCookieValue("user");
-            if (IdUser != null) {
+            if (IdUser != null && IdUser != "null") {
+                $.ajax({
+                    url: '/Home/getSizeCart',
+                    type: 'POST',
+                    data: { IdUser: IdUser },
+                    success: function (data) {
+                        $(".tip").text(data.Size)
+                        console.log(data.Size)
+                    }
+                })
                 $.ajax({
                     url: '/Home/GetUser',
                     type: 'POST',

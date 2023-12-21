@@ -51,13 +51,16 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="cart__price">$ @item.SanPham.Gia</td>
+                                    <td class="cart__price">$ @item.SanPham.Gia.0</td>
                                     <td class="cart__quantity">
                                         <div class="pro-qty">
-                                            <input type="text" value="@item.SoLuong">
+                                            <span class="dec qtybtn" onclick="giamSanPham(this)"><div class="id" hidden>@item.ID</div><div class="soluong" hidden>@item.SanPham.SoLuong</div> - </span>
+                                            <input class="soluong" type="text" oninput="calculateTotal()" value="@item.SoLuong">
+                                            <input class="hidden" hidden value="@item.SanPham.SoLuong">
+                                            <span class="inc qtybtn" onclick="themSanPham(this)"><div class="id" hidden>@item.ID</div><div class="soluong" hidden>@item.SanPham.SoLuong</div> + </span>
                                         </div>
                                     </td>
-                                    <td class="cart__total">$ 300.0</td>
+                                    <td class="cart__total">$ @(item.SanPham.Gia * item.SoLuong).0</td>
                                     <td class="cart__close" onclick="onDeleteClick(this)"><div class="id" hidden>@item.ID</div><span class="icon_close"></span></td>
                                 </tr>
                             }
@@ -74,7 +77,7 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="cart__btn update__btn">
-                    <a href="#"><span class="icon_loading"></span> Update cart</a>
+                    <a href="@Url.Action("ShopCart", "Home")"><span class="icon_loading"></span> Update cart</a>
                 </div>
             </div>
         </div>
@@ -92,8 +95,8 @@
                 <div class="cart__total__procced">
                     <h6>Cart total</h6>
                     <ul>
-                        <li>Subtotal <span>$ 750.0</span></li>
-                        <li>Total <span>$ 750.0</span></li>
+                        <li>Subtotal <span class="tongTien">$ 750.0</span></li>
+                        <li>Total <span class="tongTien">$ 750.0</span></li>
                     </ul>
                     <a href="#" class="primary-btn">Proceed to checkout</a>
                 </div>
@@ -121,4 +124,46 @@
             }
         })
     }
+    function giamSanPham(item) {
+        var ID = item.querySelector('.id').innerText;
+        var SoLuong = item.querySelector(".soluong").innerText;
+        console.log(SoLuong)
+        $.ajax({
+            url: '/Home/tangGiamSanPham',
+            type: 'POST',
+            data: { ID: ID, k: "-1", SoLuong: SoLuong },
+            success: function (data) {
+                calculateTotal();
+            }
+        })
+    }
+    function themSanPham(item) {
+        var ID = item.querySelector('.id').innerText;
+        var SoLuong = item.querySelector(".soluong").innerText;
+        console.log(SoLuong)
+        $.ajax({
+            url: '/Home/tangGiamSanPham',
+            type: 'POST',
+            data: { ID: ID, k: "1", SoLuong: SoLuong },
+            success: function (data) {
+                calculateTotal();
+            }
+        })
+    }
+    function calculateTotal() {
+        var total = 0;
+        var totalElements = document.querySelectorAll(".cart__total");
+        totalElements.forEach(function (element) {
+            var value = parseFloat(element.textContent.replace("$ ", ""));
+            if (!isNaN(value)) {
+                total += value;
+            }
+        });
+        var tongTienElements = document.querySelectorAll(".tongTien");
+        tongTienElements.forEach(function (element) {
+            element.textContent = "$ " + total.toFixed(1);
+        });
+        console.log("$ " + total.toFixed(1));
+    }
+    document.addEventListener("DOMContentLoaded", calculateTotal);
 </script>

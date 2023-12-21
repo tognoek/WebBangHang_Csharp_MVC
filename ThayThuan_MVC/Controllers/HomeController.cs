@@ -53,7 +53,18 @@ namespace ThayThuan_MVC.Controllers
             int IDuser = -1;
             if (Request.Cookies["user"] != null)
             {
-                IDuser = int.Parse(Request.Cookies["user"].Value);
+                try
+                {
+                    IDuser = int.Parse(Request.Cookies["user"].Value);
+                }
+                catch
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index");
             }
             var listCart = db.GioHang.Where(x => x.IDNguoiDung == IDuser).ToList();
             return View(listCart);
@@ -137,14 +148,37 @@ namespace ThayThuan_MVC.Controllers
             bool isAlreadyExisted = db.NguoiDung.Where(user => user.UserName.Equals(username)).FirstOrDefault() != null;
             if (isAlreadyExisted)
                 return Json(new { success = false, message = "Tài khoản đã tồn tại" });
-            
+
             db.Database.ExecuteSqlCommand("INSERT INTO [dbo].[NguoiDung] ([UserName], [Password] ,[IDQuyen], [HoTen], [SoDienThoai], [Email]) VALUES (@p0, @p1, 2, @p0, NULL, @p2)", username, password, email);
 
             return Json(new { success = true, message = "Đăng ký thành công rồi nha." });
 
         }
-
-
+        [HttpPost]
+        public ActionResult tangGiamSanPham(string ID, int k, int SoLuong)
+        {
+            int IDCheck = int.Parse(ID);
+            GioHang gioHang = db.GioHang.Find(IDCheck);
+            gioHang.SoLuong += k;
+            if (gioHang.SoLuong.Value > SoLuong)
+            {
+                gioHang.SoLuong = SoLuong;
+            }
+            if (gioHang.SoLuong.Value <= 0)
+            {
+                gioHang.SoLuong = 0;
+            }
+            db.SaveChanges();
+            return RedirectToAction("ShopCart");
+        }
+        [HttpPost]
+        public ActionResult getSizeCart(string IdUser)
+        {
+            int ID = int.Parse(IdUser);
+            var listCart = db.GioHang.Where(x => x.IDNguoiDung == ID).ToList();
+            int Size = listCart.Count();
+            return Json(new { Size = Size });
+        }
 
     }
 }

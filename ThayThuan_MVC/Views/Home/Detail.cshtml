@@ -67,9 +67,12 @@
                         <div class="quantity">
                             <span>Quantity:</span>
                             <div class="pro-qty" style="width : 160px">
+                                <span class="dec qtybtn"> - </span>
                                 <input type="text" class="quantityProduct" value="1" />
+                                <span class="inc qtybtn"> + </span>
                             </div>
                         </div>
+                        <a class="hidden" hidden></a>
                         <a href="#" class="addCart cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
                         <ul>
                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
@@ -333,12 +336,14 @@
                     type: 'POST',
                     data: { IDUser: userId, ID: @Model.ID, Quanity: quanity },
                     success: function (data) {
+                        alert("Thêm vào giỏ hàng thành công");
                         console.log(data)
                     },
                 });
             })
         }
         else {
+            alert("Chữa đăng nhập");
             console.log("Chưa đăng nhập")
         }
     })
