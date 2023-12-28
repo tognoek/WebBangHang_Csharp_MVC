@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<ThayThuan_MVC.SanPham>
 @{
     ViewBag.Title = "Shop";
 }
@@ -30,91 +30,24 @@
                         </div>
                         <div class="categories__accordion">
                             <div class="accordion" id="accordionExample">
-                                <div class="card">
-                                    <div class="card-heading active">
-                                        <a data-toggle="collapse" data-target="#collapseOne">Women</a>
-                                    </div>
-                                    <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <ul>
-                                                <li><a href="#">Coats</a></li>
-                                                <li><a href="#">Jackets</a></li>
-                                                <li><a href="#">Dresses</a></li>
-                                                <li><a href="#">Shirts</a></li>
-                                                <li><a href="#">T-shirts</a></li>
-                                                <li><a href="#">Jeans</a></li>
-                                            </ul>
+                                @foreach (var item in new ThayThuanMVCEntities().DoiTuong)
+                                {
+                                    <div class="card">
+                                        <div class="card-heading active">
+                                            <a href="@Url.Action("Shop", "Home", new { IdDoiTuong = item.ID, IdTheLoai = "-1" })">@Html.DisplayFor(modelItem => item.TenDoiTuong)</a>
+                                        </div>
+                                        <div id="" class="collapse show" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <ul>
+                                                    @foreach (var itemTow in new ThayThuanMVCEntities().TheLoai)
+                                                    {
+                                                        <li><a href="@Url.Action("Shop", "Home", new {IdDoiTuong = item.ID, IdTheLoai = itemTow.ID})">@Html.DisplayFor(modelItem => itemTow.TenTheLaoi)</a></li>
+                                                    }
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseTwo">Men</a>
-                                    </div>
-                                    <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <ul>
-                                                <li><a href="#">Coats</a></li>
-                                                <li><a href="#">Jackets</a></li>
-                                                <li><a href="#">Dresses</a></li>
-                                                <li><a href="#">Shirts</a></li>
-                                                <li><a href="#">T-shirts</a></li>
-                                                <li><a href="#">Jeans</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseThree">Kids</a>
-                                    </div>
-                                    <div id="collapseThree" class="collapse" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <ul>
-                                                <li><a href="#">Coats</a></li>
-                                                <li><a href="#">Jackets</a></li>
-                                                <li><a href="#">Dresses</a></li>
-                                                <li><a href="#">Shirts</a></li>
-                                                <li><a href="#">T-shirts</a></li>
-                                                <li><a href="#">Jeans</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseFour">Accessories</a>
-                                    </div>
-                                    <div id="collapseFour" class="collapse" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <ul>
-                                                <li><a href="#">Coats</a></li>
-                                                <li><a href="#">Jackets</a></li>
-                                                <li><a href="#">Dresses</a></li>
-                                                <li><a href="#">Shirts</a></li>
-                                                <li><a href="#">T-shirts</a></li>
-                                                <li><a href="#">Jeans</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseFive">Cosmetic</a>
-                                    </div>
-                                    <div id="collapseFive" class="collapse" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <ul>
-                                                <li><a href="#">Coats</a></li>
-                                                <li><a href="#">Jackets</a></li>
-                                                <li><a href="#">Dresses</a></li>
-                                                <li><a href="#">Shirts</a></li>
-                                                <li><a href="#">T-shirts</a></li>
-                                                <li><a href="#">Jeans</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -233,7 +166,7 @@
             </div>
             <div class="col-lg-9 col-md-9">
                 <div class="row">
-                    @foreach (var item in new ThayThuanMVCEntities().SanPham)
+                    @foreach (var item in Model)
                     {
                         <div class="col-lg-4 col-md-6">
                             <div class="product__item">

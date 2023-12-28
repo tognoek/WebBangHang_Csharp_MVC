@@ -12,7 +12,7 @@ namespace ThayThuan_MVC.Controllers
         private ThayThuanMVCEntities db = new ThayThuanMVCEntities();
         public ActionResult Index()
         {
-            var sanmphamnew = db.Database.SqlQuery<SanPham>("SELECT TOP (10) * FROM [ThayThuanMVC].[dbo].[SanPham] ORDER BY ID DESC").ToList();
+            var sanmphamnew = db.Database.SqlQuery<SanPham>("SELECT TOP (8) * FROM [ThayThuanMVC].[dbo].[SanPham] ORDER BY ID DESC").ToList();
             if (ViewData["nguoidung"] != null)
             {
                 ViewData["IndexNguoiDung"] = (NguoiDung)ViewData["nguoidung"];
@@ -43,11 +43,19 @@ namespace ThayThuan_MVC.Controllers
             return View();
         }
 
-        public ActionResult Shop()
+        public ActionResult Shop(int? IdDoiTuong, int? IdTheLoai)
         {
-            return View();
+            var list = db.SanPham.ToList();
+            if (IdDoiTuong > 0)
+            {
+                list = db.SanPham.Where(x => x.IDDoiTuong == IdDoiTuong).ToList();
+            }
+            if (IdDoiTuong > 0 && IdTheLoai > 0)
+            {
+                list = db.SanPham.Where(x => x.IDDoiTuong == IdDoiTuong).Where(x => x.IDTheLoai == IdTheLoai).ToList();
+            }
+            return View(list);
         }
-
         public ActionResult ShopCart()
         {
             int IDuser = -1;
@@ -77,8 +85,6 @@ namespace ThayThuan_MVC.Controllers
             {
                 var ID = nguoidung.ID;
                 var Name = nguoidung.HoTen;
-
-                // Trả về JsonResult chứa hai giá trị
                 return Json(new { ID = ID, Name = Name });
             }
             else
@@ -95,8 +101,6 @@ namespace ThayThuan_MVC.Controllers
             {
                 var ID = nguoidung.ID;
                 var Name = nguoidung.HoTen;
-
-                // Trả về JsonResult chứa hai giá trị
                 return Json(new { ID = ID, Name = Name });
             }
             else
